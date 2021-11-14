@@ -24,7 +24,9 @@
     let CALLBACK_GAME_LIST_LOADED = "GameListLoaded"
     let CALLBACK_GAME_LIST_LOAD_FAILED = "GameListLoadFailed"
     let CALLBACK_GAME_START_LAUNCH = "GameStartLaunch";
-    let CALLBACK_GAME_LAUNCH_PROGRESS = "GameLaunchProgress";
+    let CALLBACK_GAME_DOWNLOAD_PROGRESS = "GameDownloadProgress";
+    let CALLBACK_GAME_DOWNLOADED = "GameDownloaded";
+    let CALLBACK_GAME_INSTALLED = "GameInstalled";
     let CALLBACK_GAME_LAUNCH_ERROR = "GameLaunchError";
     let CALLBACK_GAME_LAUNCHED = "GameLaunched";
 
@@ -60,6 +62,8 @@
             }
         },
 
+        // 游戏启动分为三步: 下载 -> 安装 -> 启动, 会依次触发. 如果已经下载过会直接触发onGameDownloaded
+        // 如果已经安装过会直接触发onGameDownloaded和onGameInstalled, 总之会保证游戏端依次收到这些事件
         LaunchListener: {
             developerCallback: null,
             onGameStartLaunch: function() {
@@ -67,9 +71,19 @@
                     this.developerCallback.onGameStartLaunch()
                 }   
             },
-            onGameLaunchProgress: function(progress) {
-                if(this.developerCallback && this.developerCallback.onGameLaunchProgress) {
-                    this.developerCallback.onGameLaunchProgress(progress)
+            onGameDownloadProgress: function(progress) {
+                if(this.developerCallback && this.developerCallback.onGameDownloadProgress) {
+                    this.developerCallback.onGameDownloadProgress(progress)
+                }   
+            },
+            onGameDownloaded: function() {
+                if(this.developerCallback && this.developerCallback.onGameDownloaded) {
+                    this.developerCallback.onGameDownloaded()
+                }   
+            },
+            onGameInstalled: function() {
+                if(this.developerCallback && this.developerCallback.onGameInstalled) {
+                    this.developerCallback.onGameInstalled()
                 }   
             },
             onGameLaunchError: function(errMsg) {
@@ -110,8 +124,10 @@
             this.LaunchListener.developerCallback = cb
             let event = {}
             event[CALLBACK_GAME_START_LAUNCH] = "LetoSandbox.LaunchListener.onGameStartLaunch"
-            event[CALLBACK_GAME_LAUNCH_PROGRESS] = "LetoSandbox.LaunchListener.onGameLaunchProgress"
+            event[CALLBACK_GAME_DOWNLOAD_PROGRESS] = "LetoSandbox.LaunchListener.onGameDownloadProgress"
             event[CALLBACK_GAME_LAUNCH_ERROR] = "LetoSandbox.LaunchListener.onGameLaunchError"
+            event[CALLBACK_GAME_DOWNLOADED] = "LetoSandbox.LaunchListener.onGameDownloaded"
+            event[CALLBACK_GAME_INSTALLED] = "LetoSandbox.LaunchListener.onGameInstalled"
             event[CALLBACK_GAME_LAUNCHED] = "LetoSandbox.LaunchListener.onGameLaunched"
             callJavaStaticMethod(classJavaName, "launchGame", "(Ljava/lang/String;Ljava/lang/String;)V", gameJson, JSON.stringify(event));
         }

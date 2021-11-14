@@ -8,7 +8,9 @@ cc.Class({
         nameLabel: cc.Label,
         icon: cc.Sprite,
         progressLabel: cc.Label,
-        progressBar: cc.ProgressBar 
+        progressBar: cc.ProgressBar,
+        _timerStarted: false,
+        _installed: false
     },
 
     start () {
@@ -23,13 +25,45 @@ cc.Class({
     },
 
     onGameStartLaunch: function() {
-        cc.log(`onGameStartLaunch`)
+        cc.log(`onGameStartLaunch`) 
     },
 
-    onGameLaunchProgress: function(progress) {
-        cc.log(`onGameLaunchProgress: ${progress}`)
+    onGameDownloadProgress: function(progress) {
+        // 下载部分总体算75
+        progress = Math.floor(progress * 0.75);
+        cc.log(`onGameDownloadProgress: ${progress}`)
         this.progressLabel.string = `${progress}%`
         this.progressBar.progress = progress / 100.0
+    },
+
+    onGameDownloaded: function() {
+        cc.log(`onGameDownloaded`) 
+        let progress = 75
+        this.progressLabel.string = `${progress}%`
+        this.progressBar.progress = progress / 100.0
+
+        // 启动一个计时器执行下载之后的假进度更新
+        if(!this._timerStarted) {
+            this.schedule(() => {
+                let curProgress = this.progressBar.progress * 100
+                let max = this._installed ? 100 : 90
+                if(curProgress < max) {
+                    curProgress++
+                }
+                curProgress = Math.floor(Math.min(max, curProgress))
+                this.progressLabel.string = `${curProgress}%`
+                this.progressBar.progress = curProgress / 100.0
+            }, 0.5)
+            this._timerStarted = true
+        }
+    },
+
+    onGameInstalled: function() {
+        cc.log(`onGameInstalled`) 
+        let progress = 90
+        this.progressLabel.string = `${progress}%`
+        this.progressBar.progress = progress / 100.0
+        this._installed = true
     },
 
     onGameLaunchError: function(errMsg) {

@@ -1398,6 +1398,8 @@
     "progressBar": {
       "__id__": 12
     },
+    "_timerStarted": false,
+    "_installed": false,
     "_id": "5fSLIY8wFDmJgdaa52ytjJ"
   }
 ]
