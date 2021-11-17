@@ -43,7 +43,7 @@ cc.Class({
     },
 
     start() {
-        for(let i in Global.gameData.gameList) {
+        for(let i = 0; i < Global.GAME_SIZE; i++) {
             this._hotArr[i].active = Number(Global.gameData.gameList[i].is_hot) == 1
             this._nameArr[i].string = Global.gameData.gameList[i].name
             Utils.loadImgByUrl(this._picArr[i], Global.gameData.gameList[i].pic)
