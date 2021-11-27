@@ -290,7 +290,6 @@ window.__require = function e(t, n, r) {
       onLoad: function onLoad() {
         this._initTime = Date.now();
         false;
-        cc.log("before waitSandbox");
         LetoSandbox.waitSandbox(this);
       },
       update: function update(dt) {},

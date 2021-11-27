@@ -106,34 +106,6 @@
             android:taskAffinity="com.leto.sandbox.app"
             android:windowSoftInputMode="adjustResize|stateHidden"
             tools:replace="android:screenOrientation"/>
-        <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.leto.sandbox.app"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:replace="android:screenOrientation"/>
-        <activity
-            android:name="com.ipaynow.plugin.presenter.PayMethodActivity"
-            android:configChanges="keyboardHidden|navigation|orientation|screenSize"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.leto.sandbox.app"
-            android:theme="@android:style/Theme.Dialog"
-            tools:replace="android:screenOrientation"/>
-        <activity
-            android:name="com.ipaynow.plugin.inner_plugin.wechatwp.activity.WeChatNotifyActivity"
-            android:configChanges="keyboardHidden|navigation|orientation|screenSize"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:taskAffinity="com.leto.sandbox.app"
-            android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Dialog"
-            tools:replace="android:screenOrientation"/>
     </application>
     
 </manifest>
